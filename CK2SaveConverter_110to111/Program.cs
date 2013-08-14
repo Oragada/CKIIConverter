@@ -15,6 +15,9 @@ namespace CK2SaveConverter_110to111
         {
             Console.WriteLine("Copyright Oragada");
 
+            //Get the correct encoding which describes the way the program reads the text files
+            Encoding encode = Encoding.GetEncoding(1252);
+
             //Get a list of all .ck2 filename (path) in the current folder
             List<string> filenames = Directory.GetFiles(Directory.GetCurrentDirectory()).Where(e=>e.EndsWith(".ck2")).ToList();
 
@@ -25,7 +28,7 @@ namespace CK2SaveConverter_110to111
                 Console.WriteLine(string.Format("Starting on {0}", filename));
 
                 //Open the save game and load in all lines of data
-                string[] lines = File.ReadAllLines(filename);
+                string[] lines = File.ReadAllLines(filename,encode);
 
                 //Create a list to hold all the line numbers that contains Traits
                 List<int> traitLines = new List<int>();
@@ -69,7 +72,7 @@ namespace CK2SaveConverter_110to111
                 string[] parts = filename.Split('.');
 
                 //The actual file creation with the modified trait lines
-                File.WriteAllLines((parts[0] + "-111." + parts[1]), lines);
+                File.WriteAllLines((parts[0] + "-111." + parts[1]), lines,encode);
 
             }
         }
